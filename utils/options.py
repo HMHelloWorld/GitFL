@@ -84,7 +84,7 @@ def args_parser():
     parser.add_argument('--physical_time', type=float, default=300000, help='bound with physical time')
     parser.add_argument('--uncertain_type', type=int, default=0, help='0 [0.2,0.2,0.2,0.2,0.2]; 1 [0.5,0.2,0.1,0.1,0.1]; 2 [0.1,0.15,0.5,0.15,0.1]; 3 [0.1,0.1,0.1,0.2,0.5].')
     
-    parser.add_argument('--fedmerge_select_ctrl', type=int, default=0, help='-1 random, 1 without curiosity, 2 without time ctrl')
+    parser.add_argument('--gitfl_select_ctrl', type=int, default=0, help='-1 random, 1 without curiosity, 2 without time ctrl')
 
 
     args = parser.parse_args()

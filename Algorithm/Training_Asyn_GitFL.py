@@ -118,11 +118,11 @@ def GitFL(args, net_glob, dataset_train, dataset_test, dict_users):
             acc.append(test(net_glob, dataset_test, physical_time, comm_time, args))
             times.append(physical_time)
 
-    save_result(acc, 'test_acc_{}'.format(args.fedmerge_select_ctrl), args)
-    save_result(times, 'test_time_{}'.format(args.fedmerge_select_ctrl), args)
+    save_result(acc, 'test_acc_{}'.format(args.gitfl_select_ctrl), args)
+    save_result(times, 'test_time_{}'.format(args.gitfl_select_ctrl), args)
 
 def client_select(args, model_idx, model_comm_times, model_physical_times, client_comm_time_table, client_physical_time_table, wait_merge_clients = []):
-    select_ctrl = args.fedmerge_select_ctrl
+    select_ctrl = args.gitfl_select_ctrl
     if select_ctrl == -1:
         idx = random.randint(0,args.num_users-1)
         while idx in wait_merge_clients:
@@ -141,14 +141,14 @@ def client_select(args, model_idx, model_comm_times, model_physical_times, clien
         avg_time /= len(client_physical_time_table)
         avg_comm = avg_comm/len(model_comm_times)
         model_comm = model_comm_times[model_idx]
-        comm_ctrl = avg_comm - model_comm
+        comm_ctrl = model_comm - avg_comm
         # if comm_ctrl > 0:
         #     comm_ctrl = comm_ctrl **2
         # else:
         #     comm_ctrl = - ((-comm_ctrl) **2)
         for i in range(len(client_comm_time_table)):
             comm_time = client_comm_time_table[i]
-            curiosity = 1.0 / ((comm_time+1.0)**2)
+            curiosity = 1.0 / ((comm_time+1.0)**(0.5))
             if max_time == 0.0:
                 time_ctrl = 0
             else:
