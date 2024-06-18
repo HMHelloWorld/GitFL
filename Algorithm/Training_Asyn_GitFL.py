@@ -141,14 +141,14 @@ def client_select(args, model_idx, model_comm_times, model_physical_times, clien
         avg_time /= len(client_physical_time_table)
         avg_comm = avg_comm/len(model_comm_times)
         model_comm = model_comm_times[model_idx]
-        comm_ctrl = avg_comm - model_comm
+        comm_ctrl = model_comm - avg_comm
         # if comm_ctrl > 0:
         #     comm_ctrl = comm_ctrl **2
         # else:
         #     comm_ctrl = - ((-comm_ctrl) **2)
         for i in range(len(client_comm_time_table)):
             comm_time = client_comm_time_table[i]
-            curiosity = 1.0 / ((comm_time+1.0)**2)
+            curiosity = 1.0 / ((comm_time+1.0)**(0.5))
             if max_time == 0.0:
                 time_ctrl = 0
             else:
