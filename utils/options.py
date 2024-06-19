@@ -46,18 +46,11 @@ def args_parser():
     parser.add_argument('--verbose', action='store_true', help='verbose print')
     parser.add_argument('--seed', type=int, default=1, help='random seed (default: 1)')
 
-    parser.add_argument('--prox_alpha', type=float, default=0.01, help='The hypter parameter for the FedProx')
-    parser.add_argument('--lr_g', type=float, default=0.1, help="global learning rate for SCAFFOLD")
-    parser.add_argument('--contrastive_alpha', type=float, default=5, help='The hypter parameter for the Moon')
-    parser.add_argument('--temperature', type=float, default=0.5, help='the temperature parameter for contrastive loss')
     parser.add_argument('--model_buffer_size', type=int, default=1,
                         help='store how many previous models for contrastive loss')
     parser.add_argument('--pool_option', type=str, default='FIFO', help='FIFO or BOX')
-    parser.add_argument('--ensemble_alpha', type=float, default=0.2, help='The hypter parameter for the FedGKD')
     parser.add_argument('--sim_type', type=str, default='L1', help='Cluster Sampling: cosine or L1 or L2')
-    parser.add_argument('--alpha_coef', type=float, default=1e-2, help='FedDC')
-    parser.add_argument('--p', type=float, default=2.0, help='power for AT')
-    parser.add_argument('--trans_beta', type=int, default=500, help='beta of FedAttTrans')
+
 
     # FedASync
     parser.add_argument('--FedASync_alpha', type=float, default=0.9, help='The hypter parameter for the FedASync')
@@ -72,13 +65,7 @@ def args_parser():
     # FedSA
     parser.add_argument('--M_frac', type=float, default=0.5)
 
-    # FedMut
-    parser.add_argument('--radius', type=float, default=4.0)
-    parser.add_argument('--min_radius', type=float, default=0.1)
-    parser.add_argument('--mut_acc_rate', type=float, default=0.3)
-    parser.add_argument('--mut_bound', type=int, default=50)
-
-     # asynchronous arguments
+    # asynchronous arguments
     parser.add_argument('--asyn_type', type=int, default=1, help='0 communication time, 1 physical time')
     parser.add_argument('--comm_time', type=int, default=10000, help='bound with communication time')
     parser.add_argument('--physical_time', type=float, default=300000, help='bound with physical time')
