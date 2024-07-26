@@ -82,13 +82,13 @@ def GitFL(args, net_glob, dataset_train, dataset_test, dict_users):
         wait_merge_client = wait_merge_clients[train_model_idx]
         physical_time = min_physical_time
         if wait_merge_client != -1:
-            client_comm = client_comm_time_table[train_model_idx]
+            client_comm = client_comm_time_table[wait_merge_client]
             client_phy_time = trained_model_phy_times[train_model_idx]
-            client_physical_time_table[wait_merge_client] = (client_physical_time_table[wait_merge_client] + client_phy_time)/(client_comm+1)
+            client_physical_time_table[wait_merge_client] = (client_physical_time_table[wait_merge_client] * (client_comm - 1) + client_phy_time)/(client_comm)
         comm_time += 1
         model_comm_times[train_model_idx] += 1
 
-        user_idx = client_select(args, train_model_idx, model_comm_times, model_physical_times, client_comm_time_table, client_physical_time_table, wait_merge_clients)
+        user_idx = client_select(args, physical_time, train_model_idx, model_comm_times, model_physical_times, client_comm_time_table, client_physical_time_table, wait_merge_clients)
 
         buffer_weights[train_model_idx] = copy.deepcopy(wait_merge_weights[train_model_idx])
 
@@ -113,7 +113,7 @@ def GitFL(args, net_glob, dataset_train, dataset_test, dict_users):
         
         wait_merge_weights[train_model_idx] = (copy.deepcopy(w))
 
-        if comm_time % 10 == 9:
+        if comm_time % 50 == 49:
             net_glob.load_state_dict(main_model_generation(buffer_weights,model_comm_times))
             acc.append(test(net_glob, dataset_test, physical_time, comm_time, args))
             times.append(physical_time)
@@ -121,7 +121,7 @@ def GitFL(args, net_glob, dataset_train, dataset_test, dict_users):
     save_result(acc, 'test_acc_{}'.format(args.gitfl_select_ctrl), args)
     save_result(times, 'test_time_{}'.format(args.gitfl_select_ctrl), args)
 
-def client_select(args, model_idx, model_comm_times, model_physical_times, client_comm_time_table, client_physical_time_table, wait_merge_clients = []):
+def client_select(args, physical_time, model_idx, model_comm_times, model_physical_times, client_comm_time_table, client_physical_time_table, wait_merge_clients = []):
     select_ctrl = args.gitfl_select_ctrl
     if select_ctrl == -1:
         idx = random.randint(0,args.num_users-1)
@@ -158,8 +158,8 @@ def client_select(args, model_idx, model_comm_times, model_physical_times, clien
             elif select_ctrl == 2:
                 weight = max(0.000001, curiosity)
             else:
-                alpha = avg_time/(args.physical_time*2)
-                if avg_time < args.physical_time/10:
+                alpha = physical_time/(args.physical_time*2)
+                if physical_time < args.physical_time/10:
                     weight = max(0.000001, curiosity)
                 else:
                     weight = max(0.000001, curiosity*alpha + time_ctrl*(1-alpha))
