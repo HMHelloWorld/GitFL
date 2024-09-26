@@ -106,7 +106,7 @@ Set the client selection strategy for GitFL
 2 – Only using curiosity
 
 
-### 2.2 Runing Project
+### 2.2 Running Project
 #### 2.2.1 Basic Commands
     cd GitFL_code/
     python main_fed.py <parameters>
@@ -117,6 +117,7 @@ Example
     python main_fed.py --num_users 100 --frac 0.1 --generate_data 1 --num_classes 10 --num_channels 3 --model cnn --algorithm GitFL --dataset cifar10 --iid 1 --gitfl_select_ctrl 0 --asyn_type 1 --physical_time 100000
 
 ## Citation
+```
 @inproceedings{hu2023gitfl,
   title={GitFL: Uncertainty-Aware Real-Time Asynchronous Federated Learning Using Version Control},
   author={Hu, Ming and Xia, Zeke and Yan, Dengke and Yue, Zhihao and Xia, Jun and Huang, Yihao and Liu, Yang and Chen, Mingsong},
@@ -125,3 +126,4 @@ Example
   year={2023},
   organization={IEEE}
 }
+```
