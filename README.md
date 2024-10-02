@@ -1,6 +1,6 @@
 # GitFL & Baselines Documentation
 
-GitFL is an novel asynchronous federated learning method that was published in the proceedings of 2023 **IEEE Real-Time Systems Symposium (RTSS 2023)**.
+GitFL is a novel asynchronous federated learning method that was published in the proceedings of 2023 **IEEE Real-Time Systems Symposium (RTSS 2023)**.
 Please see the paper **"GitFL: Uncertainty-Aware Real-Time Asynchronous Federated Learning Using Version Control"** for the details.
 
 https://www.computer.org/csdl/proceedings-article/rtss/2023/285700a145/1UjInWgoXGE
